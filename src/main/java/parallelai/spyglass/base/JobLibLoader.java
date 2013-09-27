@@ -5,9 +5,10 @@ import org.apache.log4j.LogManager;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.LocatedFileStatus;
+import org.apache.hadoop.fs.FileStatus;
+//import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.RemoteIterator;
+//import org.apache.hadoop.fs.RemoteIterator;
 
 public class JobLibLoader {
 
@@ -21,14 +22,13 @@ public class JobLibLoader {
 
 			FileSystem fs = FileSystem.get(config);
 
-			RemoteIterator<LocatedFileStatus> itr = fs.listFiles(libPath, true);
+			FileStatus[] entries = fs.listStatus(libPath);
 
-			while (itr.hasNext()) {
-				LocatedFileStatus f = itr.next();
-
-				if (!f.isDirectory() && f.getPath().getName().endsWith("jar")) {
-					logger.info("Loading Jar : " + f.getPath().getName());
-					DistributedCache.addFileToClassPath(f.getPath(), config);
+			for(FileStatus e: entries) {
+                                Path entryPath = e.getPath();
+                                if (!e.isDir() && entryPath.getName().endsWith("jar")) {
+					logger.info("Loading Jar : " + entryPath.getName());
+					DistributedCache.addFileToClassPath(entryPath, config);
 				}
 			}
 		} catch (Exception e) {
