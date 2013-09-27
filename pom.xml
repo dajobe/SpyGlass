@@ -66,13 +66,6 @@
 			<name>Scala Tools</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
-<!--
-		<repository>
-			<id>cloudera-cdh4</id>
-			<name>Cloudera CDH4</name>
-			<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-		</repository>
--->
 		<repository>
 			<id>conjars</id>
 			<name>Con Jars</name>
